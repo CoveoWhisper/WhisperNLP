@@ -41,6 +41,10 @@ class DialogFlowService:
         parent = entity_types_client.project_agent_path(self.project_id)
         entity_type = dialogflow.types.EntityType(display_name=name, kind=dialogflow.enums.EntityType.Kind.KIND_LIST)
 
+        for entity in self.get_entities():
+            if entity.display_name == name:
+                return
+
         entity_types_client.create_entity_type(parent, entity_type)
 
     def add_entity(self, entity_name, entity_value):
@@ -73,21 +77,29 @@ class DialogFlowService:
 
     def get_entities(self):
         entity_types_client = dialogflow.EntityTypesClient()
-        return entity_types_client.list_entity_types(self.parent, DialogFlowService.LANGUAGE_CODE)
+        entities_iterator = entity_types_client.list_entity_types(self.parent, DialogFlowService.LANGUAGE_CODE)
+
+        entities = []
+        for entity in entities_iterator:
+            entities.append(entity)
+        return entities
 
     def get_entity_type_id(self, entity_display_name):
-        entity_types_client = dialogflow.EntityTypesClient()
-        entity_types = entity_types_client.list_entity_types(self.parent, DialogFlowService.LANGUAGE_CODE)
+        entities = self.get_entities()
 
-        for entity_type in entity_types:
-            if(entity_type.display_name == entity_display_name):
-                return self.get_id_from_path(entity_type.name)
+        for entity in entities:
+            if entity.display_name == entity_display_name:
+                return self.get_id_from_path(entity.name)
         raise ValueError('No entity having specified entity_display_name')
-
-
 
     def get_id_from_path(self, path):
         path_elements = path.split('/')
-        if(len(path_elements) != 5):
+        if len(path_elements) != 5:
             raise ValueError('Path should be of format: "/projects/projectName/agent/entityTypes/id"')
         return path_elements[-1]
+
+    def add_entities_from_file(self, file_path, entity_type_name):
+        file = open(file_path)
+        keywords = file.readlines()
+        self.service.add_entity_type(entity_type_name)
+        self.service.add_entities(entity_type_name, keywords)
