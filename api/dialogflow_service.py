@@ -77,12 +77,7 @@ class DialogFlowService:
 
     def get_entities(self):
         entity_types_client = dialogflow.EntityTypesClient()
-        entities_iterator = entity_types_client.list_entity_types(self.parent, DialogFlowService.LANGUAGE_CODE)
-
-        entities = []
-        for entity in entities_iterator:
-            entities.append(entity)
-        return entities
+        return entity_types_client.list_entity_types(self.parent, DialogFlowService.LANGUAGE_CODE)
 
     def get_entity_type_id(self, entity_display_name):
         entities = self.get_entities()
