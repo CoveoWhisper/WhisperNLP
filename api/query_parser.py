@@ -26,7 +26,7 @@ class QueryParser(object):
         print('Step 2: remove stopwords', words)
         word_tuples = [(self.model[w], w) for w in words if w in self.model]
         heapq.heapify(word_tuples)
-        print('Step 4: sort by rarity', word_tuples)
+        print('Step 3: sort by rarity', word_tuples)
         rarest_words = [w[1] for w in heapq.nsmallest(3, word_tuples)]
         print('Step 4: keep rarest', rarest_words)
         return " ".join(rarest_words)
