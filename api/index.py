@@ -11,15 +11,10 @@ dialogflowservice = DialogFlowService()
 @app.route('/NLP/Analyze',  methods=['POST'])
 def nlp_analyze():
     content = request.get_json()
-    nlp_analysis = dialogflowservice.analyse_sentence(content['sentence'])
+    query = content['sentence']
+    nlp_analysis = dialogflowservice.analyse_sentence(query)
+    nlp_analysis.add_query(QueryParser.parse_query(query))
     return jsonify(nlp_analysis)
-
-
-@app.route('/NLP/Parse/Query', methods=['POST'])
-def ml_parse_query():
-    content = request.get_json()
-    parsed_query = QueryParser.parse_query(content)
-    return jsonify(parsed_query)
 
 
 if __name__ == '__main__':

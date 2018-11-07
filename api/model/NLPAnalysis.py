@@ -5,6 +5,7 @@ class NLPAnalysis:
     def __init__(self):
         self.intents = []
         self.entities = []
+        self.query = ""
 
     def add_entity(self, entity):
         self.entities.append(entity)
@@ -15,3 +16,6 @@ class NLPAnalysis:
 
     def add_intent(self, intent):
         self.intents.append(intent)
+
+    def add_query(self, query):
+        self.query = query
