@@ -20,12 +20,13 @@ class QueryParser(object):
 
     def parse_query(self, sentence):
         words = self.parseText(sentence)
-        print('Step 1: split query in words ', words)
+        print('Step 1: split query in words', words)
         stopWords = set(stopwords.words(LANGUAGE))
         words = [word for word in words if word not in stopWords]
-        print('Step 2: remove stopwords ', words)
+        print('Step 2: remove stopwords', words)
         word_tuples = [(self.model[w], w) for w in words if w in self.model]
         heapq.heapify(word_tuples)
+        print('Step 4: sort by rarity', word_tuples)
         rarest_words = [w[1] for w in heapq.nsmallest(3, word_tuples)]
-        print('Step 3: keep rarest ', rarest_words)
+        print('Step 4: keep rarest', rarest_words)
         return " ".join(rarest_words)

@@ -28,4 +28,4 @@ if __name__ == '__main__':
     query_parser = QueryParser(word_model)
     nltk.download('stopwords')
     LoggerFactory.get_logger(__name__).info("API started")
-    app.run(host='0.0.0.0', port=50001)
+    app.run(host='0.0.0.0')
