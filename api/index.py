@@ -22,7 +22,7 @@ def nlp_analyze():
 
 
 if __name__ == '__main__':
-    word_model_file = open('checkpoint.bin', 'rb')
+    word_model_file = open('word_count.bin', 'rb')
     word_model = pickle.load(word_model_file)
     word_model_file.close()
     query_parser = QueryParser(word_model)
