@@ -1,32 +1,23 @@
-from nltk import word_tokenize
-from nltk.corpus import stopwords
-import re
-import heapq
+from api.text_data_mining import *
+from collections import Counter
 
 LANGUAGE = 'english'
 
 
 class QueryParser(object):
     def __init__(self, word_model):
-        self.model = word_model
-
-    def parseText(self, text):
-        words = word_tokenize(text, language=LANGUAGE)
-        regex = re.compile('[^a-zA-Z0-9]')
-        words = [regex.sub('', w).lower() for w in words]
-        words = [w for w in words if w]
-        return words
-
+        self.model = Counter(word_model)
 
     def parse_query(self, sentence):
-        words = self.parseText(sentence)
-        print('Step 1: split query in words', words)
-        stopWords = set(stopwords.words(LANGUAGE))
-        words = [word for word in words if word not in stopWords]
-        print('Step 2: remove stopwords', words)
-        word_tuples = [(self.model[w], w) for w in words if w in self.model]
-        heapq.heapify(word_tuples)
-        print('Step 3: sort by rarity', word_tuples)
-        rarest_words = [w[1] for w in heapq.nlargest(3, word_tuples)]
-        print('Step 4: keep most frequents', rarest_words)
-        return " ".join(rarest_words)
+        # keep relevant words in model : this step will be removed when the model is completely optimized
+        print(self.model.most_common())
+        self.model = remove_rare_words(self.model, (1,2))
+        self.model = remove_most_common_word(self.model)
+        self.model = remove_most_common_word(self.model)
+        print('Step 1: keep relevant words in model', self.model.most_common())
+        bag_of_words = word_tokenize(parseText(sentence))
+        print('Step 2: parse and split query in words', bag_of_words)
+        word_counts = Counter({w: self.model[w] for w in bag_of_words if w in self.model})
+        print('Step 3: word counts', word_counts)
+
+        return ' '.join(word_counts)
