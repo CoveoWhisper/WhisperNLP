@@ -3,3 +3,6 @@ nose
 dialogflow==0.5.0
 uuid
 nltk
+scipy
+numpy
+scikit-learn

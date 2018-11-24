@@ -1,23 +1,21 @@
-from api.text_data_mining import *
-from collections import Counter
+from sklearn.feature_extraction.text import TfidfVectorizer
+import math
 
 LANGUAGE = 'english'
 
 
 class QueryParser(object):
-    def __init__(self, word_model):
-        self.model = Counter(word_model)
+    def __init__(self, query_model):
+        self.model = query_model
 
     def parse_query(self, sentence):
-        # keep relevant words in model : this step will be removed when the model is completely optimized
-        print(self.model.most_common())
-        self.model = remove_rare_words(self.model, (1,2))
-        self.model = remove_most_common_word(self.model)
-        self.model = remove_most_common_word(self.model)
-        print('Step 1: keep relevant words in model', self.model.most_common())
-        bag_of_words = word_tokenize(parseText(sentence))
-        print('Step 2: parse and split query in words', bag_of_words)
-        word_counts = Counter({w: self.model[w] for w in bag_of_words if w in self.model})
-        print('Step 3: word counts', word_counts)
+        tfidf = self.model.transform([sentence])
 
-        return ' '.join(word_counts)
+        feature_names = self.model.get_feature_names()
+        scores = []
+        for col in tfidf.nonzero()[1]:
+            new_score = (feature_names[col], math.ceil(tfidf[0, col] * 1000) / 1000)
+            scores.append(new_score)
+        print('word score :', sorted(scores, key=lambda x: x[1], reverse=True))
+
+        return ' '.join([score[0] for score in scores])
