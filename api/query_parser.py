@@ -1,5 +1,6 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 import math
+from api.text_data_mining import parseText
 
 LANGUAGE = 'english'
 
@@ -9,7 +10,7 @@ class QueryParser(object):
         self.model = query_model
 
     def parse_query(self, sentence):
-        tfidf = self.model.transform([sentence])
+        tfidf = self.model.transform([parseText(sentence)])
 
         feature_names = self.model.get_feature_names()
         scores = []
