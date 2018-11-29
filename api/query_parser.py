@@ -1,6 +1,6 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 import math
-from api.text_data_mining import parseText
+from api.text_data_mining import parseText, get_word_mapping
 
 LANGUAGE = 'english'
 
@@ -10,6 +10,8 @@ class QueryParser(object):
         self.model = query_model
 
     def parse_query(self, sentence):
+        parsed_word_by_word = get_word_mapping(sentence)
+
         tfidf = self.model.transform([parseText(sentence)])
 
         feature_names = self.model.get_feature_names()
@@ -17,6 +19,10 @@ class QueryParser(object):
         for col in tfidf.nonzero()[1]:
             new_score = (feature_names[col], math.ceil(tfidf[0, col] * 1000) / 1000)
             scores.append(new_score)
-        print('word score :', sorted(scores, key=lambda x: x[1], reverse=True))
 
-        return ' '.join([score[0] for score in scores])
+        word_by_parsed_word = {value: key for (key, value) in parsed_word_by_word.items()}
+        query_word_score = [(word_by_parsed_word[word], score) for (word, score) in scores]
+        query_word_score.extend([(word,0) for (word, parsed_word) in parsed_word_by_word.items() if parsed_word == ''])
+        query_word_score = sorted(query_word_score, key=lambda x: x[1], reverse=True)
+
+        return ' '.join([word for (word, score) in query_word_score])

@@ -79,3 +79,12 @@ def remove_rare_words(words_count, least_counts_to_remove):
 def remove_most_common_word(words_count):
     most_common_word = words_count.most_common(1)
     return words_count - Counter(dict(most_common_word))
+def get_word_mapping (text):
+    words = {word : parseText(word) for word in text.split()}
+    query_words = {word : parsed_word for (word, parsed_word) in words.items() if
+                   parsed_word or word.isdigit() or word[1:].replace(".", "", 1).isdigit()}
+    unique_query_words = {}
+    for word, parsed_word in query_words.items():
+        if parsed_word not in unique_query_words.values() or parsed_word == '':
+            unique_query_words[word] = parsed_word
+    return unique_query_words
