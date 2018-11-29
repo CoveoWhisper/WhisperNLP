@@ -10,6 +10,7 @@ class NLPJSONEncoder(JSONEncoder):
             return {
                 'intents': obj.intents,
                 'entities': obj.entities,
+                'parsedQuery': obj.query,
             }
         elif isinstance(obj, Intent):
             return {
