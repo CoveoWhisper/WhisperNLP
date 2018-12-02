@@ -1,6 +1,6 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 import math
-from api.text_data_mining import parseText, get_word_mapping
+from api.AI_models_generators.text_data_mining_utilities import parseText, get_word_mapping
 
 LANGUAGE = 'english'
 

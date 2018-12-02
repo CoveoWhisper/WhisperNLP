@@ -31,7 +31,7 @@ def lower_cases(text):
     return text.lower()
 def remove_noise(text):
     words = word_tokenize(text)
-    noise_sub_words = ['www', '/', 'coveo', 'salesforce', '.', '<0x', '@']
+    noise_sub_words = ['www', '/', '<0x', '@']
     for index in range(len(words)):
        for noise_sub_word in noise_sub_words:
            if noise_sub_word in words[index]:
@@ -45,10 +45,12 @@ def remove_stop_words(text):
     stop_words = stopwords.words(LANGUAGE)
     return ' '.join([i for i in word_tokenize(text) if i not in stop_words])
 def remove_chatbot_stop_words(text):
-    fichier = open('stopwords/chatbot_stop_words.txt', 'r')
+    # fichier = open('stopwords/chatbot_stop_words.txt', 'r') # when runing text_data_mining
+    fichier = open('AI_models_generators/stopwords/chatbot_stop_words.txt', 'r')
     chatbot_stop_words = fichier.read()
     fichier.close()
-    fichier = open('stopwords/stop_words_with_personal_names.txt', 'r')
+    # fichier = open('stopwords/stop_words_with_personal_names.txt', 'r') # when runing text_data_mining
+    fichier = open('AI_models_generators/stopwords/stop_words_with_personal_names.txt', 'r')
     stop_words = fichier.read()
     fichier.close()
     stop_words += chatbot_stop_words
