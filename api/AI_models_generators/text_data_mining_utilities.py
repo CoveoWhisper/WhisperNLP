@@ -22,8 +22,6 @@ def parseText(text):
     #print("Lemmatization : %s" % text)
     text = do_stemming(text)
     #print("Stemming: %s" % text)
-    text = remove_custom_stop_words(text)
-    # print("Remove custom stop words : %s" % (text))
 
     return text
 
@@ -45,18 +43,17 @@ def remove_stop_words(text):
     stop_words = stopwords.words(LANGUAGE)
     return ' '.join([i for i in word_tokenize(text) if i not in stop_words])
 def remove_chatbot_stop_words(text):
-    # fichier = open('stopwords/chatbot_stop_words.txt', 'r') # when runing text_data_mining
-    fichier = open('AI_models_generators/stopwords/chatbot_stop_words.txt', 'r')
+    #fichier = open('stopwords/chatbot_stop_words.txt', 'r') # when runing text_data_mining.py
+    fichier = open('AI_models_generators/stopwords/chatbot_stop_words.txt', 'r') # when runing index.py
     chatbot_stop_words = fichier.read()
     fichier.close()
-    # fichier = open('stopwords/stop_words_with_personal_names.txt', 'r') # when runing text_data_mining
-    fichier = open('AI_models_generators/stopwords/stop_words_with_personal_names.txt', 'r')
+    # fichier = open('stopwords/stop_words_with_personal_names.txt', 'r') # when runing text_data_mining.py
+    fichier = open('AI_models_generators/stopwords/stop_words_with_personal_names.txt', 'r') # when runing index.py
     stop_words = fichier.read()
     fichier.close()
     stop_words += chatbot_stop_words
     return ' '.join([i for i in word_tokenize(text) if i not in stop_words.split()])
-def remove_custom_stop_words(text):
-    custom_stop_words = stopwords.words(LANGUAGE) + ['endif', 'tell', 'coveo', 'salesforce', 'answer', 'question']
+def remove_custom_stop_words(text, custom_stop_words):
     return ' '.join([i for i in word_tokenize(text) if i not in custom_stop_words])
 def do_stemming(text):
     stemmer = SnowballStemmer(LANGUAGE)
