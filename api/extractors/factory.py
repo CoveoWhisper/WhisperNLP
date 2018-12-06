@@ -36,7 +36,7 @@ class ExtractorFactory:
             self.htmlNumber += 1
             if self.htmlNumber % 100 == 0:
                 print(self.htmlNumber)
-            return HTMLExtractor(response.content)
+            return HTMLExtractor(response.content, response.encoding)
         elif fileType == 'pdf':
             localFilePath = str(self.pdfNumber)+'.pdf'
             self.pdfNumber += 1

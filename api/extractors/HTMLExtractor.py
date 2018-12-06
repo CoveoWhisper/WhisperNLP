@@ -3,11 +3,12 @@ import urllib.request
 from bs4 import BeautifulSoup
 
 class HTMLExtractor:
-    def __init__(self, content):
+    def __init__(self, content, encoding):
         self.content = content
+        self.encoding = encoding
 
     def extractAllText(self):
-        soup = BeautifulSoup(self.content, features='html.parser')
+        soup = BeautifulSoup(self.content.decode(self.encoding, 'ignore'), features='html.parser')
         data = soup.findAll(text=True)
         result = filter(visible, data)
         return ' '.join(result)
