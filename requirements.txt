@@ -6,3 +6,4 @@ nltk
 scipy
 numpy
 scikit-learn
+unidecode

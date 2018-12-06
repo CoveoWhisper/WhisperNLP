@@ -22,6 +22,3 @@ class TestConfig(unittest.TestCase):
     @raises(AttributeError)
     def test_invalid_config_key(self):
         self.assertRaises(AttributeError, self.config.get('key_invalid'))
-
-    if __name__ == '__main__':
-        unittest.main()

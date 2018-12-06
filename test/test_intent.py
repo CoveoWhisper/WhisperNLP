@@ -7,6 +7,3 @@ class TestIntent(unittest.TestCase):
         intent = Intent("An intent", 2)
         self.assertEqual("An intent", intent.name)
         self.assertEqual(2, intent.confidence)
-
-    if __name__ == '__main__':
-        unittest.main()

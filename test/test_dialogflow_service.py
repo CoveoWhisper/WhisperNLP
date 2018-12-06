@@ -33,7 +33,3 @@ class TestDialogflowService(unittest.TestCase):
     def test_get_id_from_invalid_path(self):
         path = 'projects/whisper234/agent/c907d3df-b079-4de0-9d6f-6f3b7eab2c44'
         self.assertRaises(ValueError, self.service.get_id_from_path, path)
-
-
-if __name__ == '__main__':
-    unittest.main()
