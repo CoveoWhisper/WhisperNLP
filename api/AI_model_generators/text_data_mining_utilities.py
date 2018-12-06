@@ -13,6 +13,7 @@ def parseText(text):
     text = remove_noise(text)
     text = remove_numbers(text)
     text = remove_punctuation(text)
+    text = keep_just_letters(text)
     #print(text)
     text = remove_stop_words(text)
     #print("remove stop words : %s" % text)
@@ -39,11 +40,13 @@ def remove_numbers(text):
     return re.sub(r'\d+', ' ', text)
 def remove_punctuation(text):
     return  re.sub(r'\W+|\_', ' ', text)
+def keep_just_letters (text):
+    return re.sub('[^a-z]+', ' ', text)
 def remove_stop_words(text):
     stop_words = stopwords.words(LANGUAGE)
     return ' '.join([i for i in word_tokenize(text) if i not in stop_words])
 def remove_chatbot_stop_words(text):
-    #fichier = open('stopwords/chatbot_stop_words.txt', 'r') # when runing text_data_mining.py
+    # fichier = open('stopwords/chatbot_stop_words.txt', 'r') # when runing text_data_mining.py
     fichier = open('AI_models_generators/stopwords/chatbot_stop_words.txt', 'r') # when runing index.py
     chatbot_stop_words = fichier.read()
     fichier.close()

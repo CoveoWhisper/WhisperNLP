@@ -1,11 +1,12 @@
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
+from api.AI_model_generators.text_data_mining_utilities import *
 import pandas as pd
 import math
 
 # retrieve text of all documents
 documents_dict = {}
-for i in range(1,11):
+for i in range(1,2621):
     bin_file = open('parsed_documents/' + str(i) + '.bin', 'rb')
     text = pickle.load(bin_file)
     bin_file.close()
@@ -21,19 +22,19 @@ print(data_frame.shape)
 
 
 # *************************************************** store model *************************************************
-file_name = '../AI_models/tf_idf_model.bin'
+file_name = '../AI_models/query_model.bin'
 binFile = open(file_name, 'wb')
 binModel = pickle.dump(tfidf_vectorizer, binFile)
 binFile.close()
 
-bin_file = open('../AI_models/tf_idf_model.bin', 'rb')
+bin_file = open('../AI_models/query_model.bin', 'rb')
 model = pickle.load(bin_file)
 bin_file.close()
 
 # ************************************************* apply model ***************************************************
 
-query = 'Hello, I need help with coveo rest api today. Can you help me please?'
-result = model.transform([query])
+query = 'Hello, Can I push analytics to the organization?'
+result = model.transform([parseText(query)])
 
 feature_names = model.get_feature_names()
 scores = []
