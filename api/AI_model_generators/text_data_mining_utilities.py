@@ -47,11 +47,11 @@ def remove_stop_words(text):
     return ' '.join([i for i in word_tokenize(text) if i not in stop_words])
 def remove_chatbot_stop_words(text):
     # fichier = open('stopwords/chatbot_stop_words.txt', 'r') # when runing text_data_mining.py
-    fichier = open('AI_models_generators/stopwords/chatbot_stop_words.txt', 'r') # when runing index.py
+    fichier = open('AI_model_generators/stopwords/chatbot_stop_words.txt', 'r') # when runing index.py
     chatbot_stop_words = fichier.read()
     fichier.close()
     # fichier = open('stopwords/stop_words_with_personal_names.txt', 'r') # when runing text_data_mining.py
-    fichier = open('AI_models_generators/stopwords/stop_words_with_personal_names.txt', 'r') # when runing index.py
+    fichier = open('AI_model_generators/stopwords/stop_words_with_personal_names.txt', 'r') # when runing index.py
     stop_words = fichier.read()
     fichier.close()
     stop_words += chatbot_stop_words
@@ -83,8 +83,16 @@ def remove_most_common_word(words_count):
     return words_count - Counter(dict(most_common_word))
 def get_word_mapping (text):
     words = {word : parseText(word) for word in text.split()}
+    # keep words like : v1.2 2345
     query_words = {word : parsed_word for (word, parsed_word) in words.items() if
                    parsed_word or word.isdigit() or word[1:].replace(".", "", 1).isdigit()}
+
+    # if not single parsed word, so choose the first element
+    for word, parsed_word in query_words.items():
+        if len(parsed_word.split())>1:
+            query_words[word] = parsed_word.split()[0]
+
+    # if 2 different words have the same parsed word, so keep just one
     unique_query_words = {}
     for word, parsed_word in query_words.items():
         if parsed_word not in unique_query_words.values() or parsed_word == '':
