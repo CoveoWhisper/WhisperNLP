@@ -70,7 +70,7 @@ def get_word_mapping(text):
     query_words = dict()
     for word in text.split():
         parsed_word = parseText(word)
-        if parsed_word:
+        if parsed_word or word.isdigit() or word[1:].replace(".", "", 1).isdigit():
             query_words[word] = parsed_word
 
     unique_query_words = dict()
@@ -80,7 +80,7 @@ def get_word_mapping(text):
         if len(split_parsed_word) > 1:
             parsed_word = split_parsed_word[0]
 
-        if parsed_word not in parsed_word_set:
+        if parsed_word not in parsed_word_set or parsed_word == '':
             parsed_word_set.add(parsed_word)
             unique_query_words[word] = parsed_word
 
