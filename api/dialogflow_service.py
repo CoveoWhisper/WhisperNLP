@@ -27,7 +27,7 @@ class DialogFlowService:
     def detect_intent(self, sentence):
         session_client = dialogflow.SessionsClient()
         session = session_client.session_path(self.project_id, self.session_id)
-        text_input = dialogflow.types.TextInput(text=sentence, language_code=config.get('language'))
+        text_input = dialogflow.types.TextInput(text=sentence[:256], language_code=config.get('language'))
         query_input = dialogflow.types.QueryInput(text=text_input)
         response = session_client.detect_intent(session=session, query_input=query_input)
         return response.query_result
