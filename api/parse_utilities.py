@@ -1,4 +1,5 @@
 import pickle
+from nltk import download
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
@@ -8,6 +9,10 @@ from collections import Counter
 
 LANGUAGE = 'english'
 noise_sub_words = ['www', '/', '<0x', '@']
+
+download('wordnet')
+download('punkt')
+download('stopwords')
 
 with open('stopwords/chatbot_stop_words.txt', 'r') as chatbot_stop_words, open('stopwords/stop_words_with_personal_names.txt', 'r') as names_stop_words:
     stop_words = set(chatbot_stop_words.read())

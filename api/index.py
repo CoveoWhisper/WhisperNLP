@@ -26,8 +26,5 @@ if __name__ == '__main__':
     word_model = pickle.load(word_model_file)
     word_model_file.close()
     query_parser = QueryParser(word_model)
-    nltk.download('wordnet')
-    nltk.download('punkt')
-    nltk.download('stopwords')
     LoggerFactory.get_logger(__name__).info("API started")
     app.run(host='0.0.0.0')
