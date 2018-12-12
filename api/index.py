@@ -17,7 +17,7 @@ def nlp_analyze():
     content = request.get_json()
     query = content['sentence']
     nlp_analysis = dialogflowservice.analyse_sentence(query)
-    nlp_analysis.add_query(query_parser.parse_query(query))
+    nlp_analysis.add_query(query_parser.parse_query(query.replace('?', '')))
     return jsonify(nlp_analysis)
 
 
