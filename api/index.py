@@ -12,6 +12,9 @@ app.json_encoder = NLPJSONEncoder
 dialogflowservice = DialogFlowService()
 
 
+'''
+This method analyze the query received and returns intents, entities and keywords
+'''
 @app.route('/NLP/Analyze',  methods=['POST'])
 def nlp_analyze():
     content = request.get_json()
